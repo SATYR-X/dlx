@@ -32,6 +32,14 @@ void extractNM( const std::string& line, int& n, int& m ){
     }
 }
 
+void extractCR( const std:: string& line, int &c, int& r){
+    std::istringstream iss(line);
+    std::string token;
+
+    iss >> c;
+    iss >> r;
+}
+
 int** processFileToMatrix(const std::string& filename,int& r,int& c){
     std::ifstring file(filename);
     if(!file.is_open()){
@@ -43,4 +51,29 @@ int** processFileToMatrix(const std::string& filename,int& r,int& c){
     extractNM(line, n, m);
     r = m;
     c = n;
+
+    std::getline(file, line);
+
+    int** matrix = new int*[r];
+    for(int i = 0;i < r;i++){
+        matrix[i]=new int[c];
+        for(int j = 0;j < c;j++){
+            matrix[i][j] = 0;
+        }
+    }
+
+    int row=0;
+    while(std::getline(file, line)){
+        if(line.empty() || line[0] != 's')continue;
+        std::istringstream iss(line.substr(2));
+        int col;
+        while(iss >> col){
+            if(col > 0 && col <= n){
+                matrix[row][col - 1] = 1;
+            }
+        }
+        ++row;
+    }
+    file.close();
+    return matrix;
 }
