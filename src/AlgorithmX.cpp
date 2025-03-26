@@ -77,3 +77,74 @@ int** processFileToMatrix(const std::string& filename,int& r,int& c){
     file.close();
     return matrix;
 }
+
+int **proFileToMat(const fs::path& filename, int& r, int& c){
+    std::ifstream file(filename.string());
+    if(!file.is_open()){
+        throw std::runtime_error("无法打开文件夹");
+    }
+
+    std::string line;
+    std::getline(file, line);
+
+    int n, m;
+    extractCR(line, n, m);
+    r = m;
+    c = n;
+
+    int **matrix = new int*[r];
+    for(int i = 0; i < r;++i){
+        matrix[i] = new int[c];
+        for(int j = 0; j < c;++j){
+            matrix[i][j] = 0;
+        }
+    }
+
+    fs::path fileNmae = filename.filename();
+    if(startsWith(fileNmae.string(), 's')){
+        std::cout<<"该文件名以s开头"<<std::endl;
+        int row = 0;
+        while(std::getline(file, line)){
+            int col;
+            while(iss >> col){
+                if(col > 0 && col <= n){
+                    matrix[row][col - 1] = 1;
+                }
+            }
+            ++row;
+        }
+        file.close();
+    }else{
+        std::cout<<"该文件名不以s开头"<<std::endl;
+        int row = 0;
+        while(std::getline(file, line)){
+            std::istringstream iss(line);
+            std::string token;
+            iss >> token;
+            iss >> token;
+            int col;
+            while(iss >> col){
+                if(col > 0 && col <=n){
+                    matrix[row][col - 1] = 1;
+                }
+            }
+            ++row;
+        }
+        file.close();
+    }
+    return matrix;
+}
+
+int main(){
+    try{
+        const std::string folderPath = "../set_partitioning_benchmarks";
+         for(const auto& entry : fs::directory_iterator(folderPath)){
+            if(entry.is_regular_file() && enrty.path().extension() == ".txt"){
+                fs::path filepath = entry.path();
+                int rows,cols;
+                int **matrix = proFileToMat(filepath, rows, cols);
+                std::cout<< rows << " " << cols << std::endl;
+            }
+         }
+    }
+}
