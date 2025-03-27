@@ -49,3 +49,36 @@ ExactCoverMatrix::~ExactCoverMatrix()
     delete[] RowIndex;
     delete[] ColIndex;
 }
+
+void ExactCoverMatrix::insert( int r, int c)
+{
+    Node* cur = &ColIndex[c];
+    ColIndex[c].size++;
+    Node* newNode = new Node( r, c );
+    while( cur->down != &ColIndex[c] && cur->down->row < r)
+        cur = cur->down;
+    newNode->down = cur->down;
+    newNode->up = cur;
+    cur->down->up = newNode;
+    cur->down = newNode;
+    if( RowIndex[r].right == NULL ){
+        RowIndex[r].right = newNode;
+        newNode->left = newNode;
+        newNode->right = newNode;
+    }
+    else{
+        Node* rowHead = RowIndex[r].right;
+        cur = rowHead;
+        while( cur->right != rowHead && cur->right->col < c)
+            cur = cur->right;
+        newNode->right = cur->right;
+        newNode->left = cur;
+        cur->right->left = newNode;
+        cur->right = newNode;
+    }                                       
+}
+
+void ExactCoverMatrix::cover( int c )
+{
+    
+}
