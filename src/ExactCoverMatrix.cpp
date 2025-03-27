@@ -80,5 +80,44 @@ void ExactCoverMatrix::insert( int r, int c)
 
 void ExactCoverMatrix::cover( int c )
 {
-    
+    ColunmHeader* col = &ColIndex[c];
+    col->right->left = col->left;
+    col->left->right = col->right;
+    Node* curR,*curC;
+    curC = col->down;
+    while( curC != col )
+    {
+        Node* noteR = curC;
+        curR = noteR->right;
+        while( curR != noteR )
+        {
+            curR->down->up = curR->up;
+            curR->up->down = curR->down;
+            ColIndex[curR->col].size--;
+            curR = curR->right;
+        }
+        curC = curC->down;
+    }
+}
+
+void ExactCoverMatrix::uncover( int c )
+{
+    Node* curR, *curC;
+    ColunmHeader* col = &ColIndex[c];
+    curC = col->up;
+    while( curC != col )
+    {
+        Node* noteR = curC;
+        curR = curC->left;
+        while( curR != noteR )
+        {
+            ColIndex[curR->col].size++;
+            curR->down->up = curR;
+            curR->up->down = curR;
+            curR = curR->left;
+        }
+        curC = curC->up;
+    }
+    col->right->left = col;
+    col->left->right = col;
 }
