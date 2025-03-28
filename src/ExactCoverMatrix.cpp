@@ -121,3 +121,73 @@ void ExactCoverMatrix::uncover( int c )
     col->right->left = col;
     col->left->right = col;
 }
+
+void ExactCoverMatrix::printColumnHeaders() const {
+    std::cout << "Column Headers:" << std::endl;
+    ColunmHeader* current = static_cast<ColunmHeader*>(root->right);
+    while (current != root){
+        std::cout << "Col: " << current->col <<" Size: " << current->size << " ";
+        current = static_cast<ColunmHeader*>(current->right);
+    }
+    std::cout << std::endl;
+}
+
+void ExactCoverMatrix::printRowNodes() const {
+    std::cout << "Row Nodes:" << std::endl;
+    for ( int i = 0; i < ROWS; i++)
+    {
+        Node* current = RowIndex[i].right;
+        if(current != nullptr){
+            Node* Note = current;
+            std::cout << "Row: " << current->row << " Col: " << current->col << " ";
+            current = current->right;
+            while ( current != Note ){
+                std::cout << "Row: " << current->row << " Col: " << current->col << " ";
+                current = current-> right;
+            }
+            std::cout << std::endl;
+        }
+        else{
+            break;
+        }
+    }
+}
+
+void ExactCoverMatrix::search( std::vector<int>& solution, int& count)
+{
+    if( root->right == root ){
+        count++;
+        return ;
+    }
+    ColunmHeader* choose = (ColunmHeader*)root->right, *cur=choose;
+    while( cur != root){
+        if( choose->size > cur->size )
+            choose = cur;
+        cur = (ColunmHeader*)cur->right;
+    }
+    if( choose->size <=0 ){
+        return ;
+    }
+    cover( choose->col );
+    Node* curC = choose->down;
+    while( curC != choose )
+    {
+        solution.push_back(curC->row + 1);
+        Node* noteR = curC;
+        Node* curR = curC->right;
+        while( curR != noteR ){
+            cover( curR->col );
+            curR = curR->right;
+        }
+        search(solution, count);
+
+        solution.pop_back();
+        curR = noteR->left;
+        while( curR != noteR ){
+            uncover( curR->col );
+        }
+        curC =  curC->down;
+    }
+    uncover( choose->col );
+    return ;
+}
