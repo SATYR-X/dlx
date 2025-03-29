@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/AlgorithmDLX.dir/src/AlgorithmX.cpp.o CMakeFiles/AlgorithmDLX.dir/src/ExactCoverMatrix.cpp.o -o AlgorithmDLX  -stdlib=libc++ 
+/usr/bin/c++ CMakeFiles/AlgorithmDLX.dir/src/AlgorithmX.cpp.o CMakeFiles/AlgorithmDLX.dir/src/ExactCoverMatrix.cpp.o -o AlgorithmDLX 

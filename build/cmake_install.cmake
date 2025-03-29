@@ -1,4 +1,4 @@
-# Install script for directory: /home/gerylau/repo/dlx
+# Install script for directory: /home/ljr/myrepo/mydlx
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/gerylau/repo/dlx/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/ljr/myrepo/mydlx/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

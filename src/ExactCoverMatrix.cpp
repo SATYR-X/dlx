@@ -1,8 +1,9 @@
+#include <vector>
 #include "ExactCoverMatrix.h"
 
 ExactCoverMatrix::ExactCoverMatrix( int rows, int cols, int** matrix)
 {
-    ROWs = rows;
+    ROWS = rows;
     COLS = cols;
     disjointSubset = new int[rows+1];
     ColIndex = new ColunmHeader[cols+1];

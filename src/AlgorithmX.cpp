@@ -45,7 +45,7 @@ bool startsWith(const std::string& str, char ch){
 }
 
 int** processFileToMatrix(const std::string& filename,int& r,int& c){
-    std::ifstring file(filename);
+    std::ifstream file(filename);
     if(!file.is_open()){
         throw std::runtime_error("无法打开文件");
     }
@@ -109,6 +109,7 @@ int **proFileToMat(const fs::path& filename, int& r, int& c){
         std::cout<<"该文件名以s开头"<<std::endl;
         int row = 0;
         while(std::getline(file, line)){
+            std::istringstream iss(line);
             int col;
             while(iss >> col){
                 if(col > 0 && col <= n){
@@ -150,7 +151,7 @@ int main(){
     try{
         const std::string folderPath = "../set_partitioning_benchmarks";
         for(const auto& entry : fs::directory_iterator(folderPath)){
-            if(entry.is_regular_file() && enrty.path().extension() == ".txt"){
+            if(entry.is_regular_file() && entry.path().extension() == ".txt"){
                 fs::path filepath = entry.path();
                 int rows,cols;
                 int **matrix = proFileToMat(filepath, rows, cols);
